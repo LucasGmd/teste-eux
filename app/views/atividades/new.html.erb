@@ -1,0 +1,12 @@
+<% if @projetos&.empty? %>
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <strong>Atenção! Nennhum projeto foi cadratado.</strong><br>
+    Primeiro salve um projeto, para poder cadastrar atividades.<br>
+    <strong><%= link_to content_tag(:b, 'Criar projeto.'), new_projeto_path %></strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% else %>
+  <%= render 'form' %>
+<% end %>

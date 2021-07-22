@@ -1,0 +1,16 @@
+pt-BR:
+  activerecord:
+    attributes:
+
+      projeto:
+        base: ''
+        nome_projeto: Nome do projeto
+        data_inicio: Data de início
+        data_final: Data de fim
+
+      atividade:
+        base: ''
+        nome_atividade: Nome da atividade
+        data_inicio: Data de início
+        data_final: Data de fim
+        finalizada: Finalizada

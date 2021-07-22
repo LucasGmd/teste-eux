@@ -1,0 +1,107 @@
+<%= form_for @projeto do |f| %>
+  <% if @projeto.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger alert-dismissible" role="alert">
+
+      <h2><%= pluralize(@projeto.errors.count, "erro impediu", "erros impediram") %> esse projeto de ser salvo:</h2>
+
+      <ul>
+        <% @projeto.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="card">
+    <div class="card-body">
+
+      <h3 style="padding-bottom: 15px;">
+        <b><%= @projeto.persisted? ? "Projeto #{ @projeto.nome_projeto }" : "Novo projeto" %></b></h3>
+
+      <div class="form-group">
+        <%= f.label :nome_projeto, { class: "form-label" } %>
+        <%= f.text_field :nome_projeto, { class: "form-control", placeholder: "Nome do projeto" } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :data_inicio, { class: "form-label" } %>
+        <%= f.date_field :data_inicio, { class: "form-control", style: "margin-top: 0px;" } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :data_final, { class: "form-label" } %>
+        <%= f.date_field :data_final, { class: "form-control" } %>
+      </div>
+
+      <% if @projeto.persisted? %>
+
+        <div class="form-group">
+          <% porcentagem_atividades = (porcentagem_atividades @projeto).round(2) %>
+          <%= f.label :completo, "% Completo", { id: 'porcentagem_atividades', class: "form-label" } %>
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: <%= porcentagem_atividades %>%;" aria-valuenow="<%= porcentagem_atividades %>" aria-valuemin="0" aria-valuemax="100"><%= "#{porcentagem_atividades} %" %></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= botao_projeto_atrasado @projeto.atrasado? %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @projeto.persisted? %>
+    <hr style="border: 1px solid #b4a1a1;">
+
+    <div>
+      <div class="form-row" style="display: flex;">
+        <div class="col-md-9" style="padding: 0px">
+          <h3 style="margin-top: 0px; white-space: nowrap;">
+            <b><%= "Atividades do projeto #{@projeto.nome_projeto}" %></b></h3>
+        </div>
+
+        <div class="col-md-3" style="padding: 0px">
+          <%= link_to content_tag(:span, nil, class: 'glyphicon glyphicon glyphicon-plus') + ' ' + ' Atividade', new_atividade_path(redireciona_projeto_id: @projeto.id), { type: :button, class: "btn btn-success", style: 'color: white; text-decoration: inherit; float: right' } %>
+        </div>
+      </div>
+
+      <%= f.fields_for :atividades do |f| %>
+        <div class="form-row" title="<%= (atividade_atrasada? f.object) ? 'Esta atividade atrasou o projeto' : ''  %>"  style="display: flex; padding-top: 15px; border: 1px solid #b4a1a1; border-radius: 5px; padding-bottom: 15px; margin-top: 20px; margin-bottom: 10px; <%= (atividade_atrasada? f.object) ? 'background-color: #f1d6d6' : 'background-color: #c8dcc4' %>">
+
+          <div class="form-group col-md-6">
+            <%= f.label :nome_atividade, { class: "form-label" } %>
+            <%= f.text_field :nome_atividade, { class: "form-control", placeholder: "Nome da atividade", style: "font-size: 16px;" } %>
+          </div>
+
+          <div class="form-group col-md-2">
+            <%= f.label :data_inicio, { class: "form-label" } %>
+            <%= f.date_field :data_inicio, { class: "form-control", style: "margin-top: 0px;" } %>
+          </div>
+
+          <div class="form-group col-md-2">
+            <%= f.label :data_final, { class: "form-label" } %>
+            <%= f.date_field :data_final, { class: "form-control" } %>
+          </div>
+
+          <div class="form-group col-md-1">
+            <%= f.label :finalizada, { class: "form-label", style: 'text-align: center;' } %>
+            <%= f.check_box :finalizada, { class: "check-box-projetos" } %>
+          </div>
+
+          <%= f.hidden_field :redireciona_projeto, value: @projeto&.id %>
+
+          <div class="form-group col-md-1">
+            <%= link_to content_tag(:span, nil, class: 'glyphicon glyphicon-trash', title: 'Deletar', style: "font-size: 20px; padding-top: 30px; padding-left: 25px").html_safe, { controller: :atividades, action: :destroy, id: f.object.id, redireciona_projeto: @projeto&.id }, method: :delete, data: { confirm: "Deseja deletar a atividade #{ f.object.nome_atividade } ?" }  %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <hr style="border: 1px solid #b4a1a1;">
+
+  <div style="padding-top: 0px;">
+    <%= link_to "Voltar", projetos_path, class: "btn btn-secondary botao-crud-voltar" %>
+    <%= f.submit "Salvar", class: "btn btn-success botao-crud" %>
+  </div>
+<% end %>

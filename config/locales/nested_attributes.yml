@@ -1,0 +1,9 @@
+pt-BR:
+  activerecord:
+    attributes:
+      atividades:
+        base: ''
+        nome_atividade: Nome da atividade
+        data_inicio: Data de início da atividade
+        data_final: Data de fim da atividade
+        finalizada: Finalizada

@@ -1,0 +1,32 @@
+<%= link_to content_tag(:span, nil, class: 'glyphicon glyphicon glyphicon-plus') + ' ' + 'Atividade', new_atividade_path, {
+  type: :button, class: "btn btn-success botao-crud-adicionar"} %>
+
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th width="50px">Nome</th>
+    <th>Data Inicial</th>
+    <th>Data Final</th>
+    <th>Finalizado?</th>
+    <th>Projeto</th>
+    <th>Ações</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @atividades.each do |registro| %>
+    <tr>
+      <td style="white-space: nowrap;"><%= registro.nome_atividade %></td>
+      <td><%= registro.data_inicio_formatada %></td>
+      <td><%= registro.data_final_formatada %></td>
+      <td style="text-align: center;"><%= check_box_atividade_finalizada registro.finalizada %></td>
+      <td><%= registro.nome_projeto %></td>
+      <td>
+        <%= link_to content_tag(:span, nil, class: 'glyphicon glyphicon-pencil', title: 'Editar').html_safe, edit_atividade_path(registro.id) %>
+        <%= link_to content_tag(:span, nil, class: 'glyphicon glyphicon-eye-open', title: 'Visualizar').html_safe, atividade_path(registro.id) %>
+        <%= link_to content_tag(:span, nil, class: 'glyphicon glyphicon-trash', title: 'Deletar').html_safe, registro, method: :delete, data: { confirm: "Deseja deletar a atividade #{ registro.nome_atividade } ?" } %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

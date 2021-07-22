@@ -1,0 +1,38 @@
+<%= form_for @atividade do |f| %>
+  <div class="card">
+    <div class="card-body">
+      <h3 style="padding-bottom: 15px;">
+        <b><%= @atividade.persisted? ? "Atividade #{ @atividade.nome_atividade}" : "Nova atividade" %></b>
+      </h3>
+
+      <div class="form-group">
+        <%= f.label :nome_atividade, { class: "form-label" } %>
+        <%= f.text_field :nome_atividade, { class: "form-control", placeholder: "Nome da atividade", disabled: true } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :data_inicio, { class: "form-label" } %>
+        <%= f.date_field :data_inicio, { class: "form-control", style: "margin-top: 0px;", disabled: true } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :data_final, { class: "form-label" } %>
+        <%= f.date_field :data_final, { class: "form-control", disabled: true } %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :projeto_id, { class: "form-label" } %>
+        <%= f.collection_select :projeto_id, Projeto.order(:nome_projeto), :id, :nome_projeto, { selected: @redireciona_projeto&.id }, disabled: true, placeholder: 'Escolha seu projeto', id: 'select-state' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.check_box :finalizada, { class: 'check-box-form', disabled: true } %>
+        <%= f.label :finalizada, { class: "form-label" } %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div style="padding-top: 0px;">
+  <%= link_to "Voltar", atividades_path, class: "btn btn-secondary botao-crud-voltar" %>
+</div>

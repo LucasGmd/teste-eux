@@ -1,0 +1,5 @@
+pt-BR:
+  activerecord:
+    models:
+      projeto: Projeto
+      atividade: Atividade
