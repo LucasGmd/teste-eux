@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nome_atividade: MyString
+  data_inicio: 2021-07-21
+  data_final: 2021-07-21
+  finalizada: false
+
+two:
+  nome_atividade: MyString
+  data_inicio: 2021-07-21
+  data_final: 2021-07-21
+  finalizada: false
